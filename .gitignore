@@ -1,0 +1,51 @@
+# === Python ===
+__pycache__/
+*.py[cod]
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.env
+.venv/
+venv/
+env/
+pip-log.txt
+pip-delete-this-directory.txt
+coverage/
+htmlcov/
+.tox/
+.mypy_cache/
+.pytest_cache/
+
+# === FastAPI or Uvicorn logs ===
+*.log
+
+# === Frontend (Node.js / React / Vite / Next.js) ===
+node_modules/
+dist/
+build/
+.vite/
+.next/
+out/
+*.log
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# === IDEs ===
+# PyCharm
+.idea/
+
+# VSCode
+.vscode/
+
+# === OS files ===
+.DS_Store
+Thumbs.db
+
+# === Git ===
+*.orig
+*.swp
+*.swo
