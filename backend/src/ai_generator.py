@@ -1,8 +1,9 @@
 import os
 import json
+import random
 
 from openai import OpenAI
-from typing import Dict, Any
+from typing import Dict, Any, List
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -51,14 +52,75 @@ def generate_challenge_with_ai(difficulty: str) -> Dict[str, Any]:
 
     except Exception as e:
         print(e)
-        return {
-            "title": "Basic Python List Operation",
-            "options": [
-                "my_list.append(5)",
-                "my_list.add(5)",
-                "my_list.push(5)",
-                "my_list.insert(5)",
-            ],
-            "correct_answer_id": 0,
-            "explanation": "In Python, append() is the correct method to add an element to the end of a list."
-        }
+        # Provide multiple fallback challenges and randomly select one
+        fallback_challenges = [
+            {
+                "title": "Basic Python List Operation",
+                "options": [
+                    "my_list.append(5)",
+                    "my_list.add(5)",
+                    "my_list.push(5)",
+                    "my_list.insert(5)",
+                ],
+                "correct_answer_id": 0,
+                "explanation": "In Python, append() is the correct method to add an element to the end of a list."
+            },
+            {
+                "title": "JavaScript Array Method",
+                "options": [
+                    "array.push(item)",
+                    "array.add(item)",
+                    "array.append(item)",
+                    "array.insert(item)",
+                ],
+                "correct_answer_id": 0,
+                "explanation": "In JavaScript, push() is the correct method to add an element to the end of an array."
+            },
+            {
+                "title": "Python Dictionary Access",
+                "options": [
+                    "dict['key']",
+                    "dict('key')",
+                    "dict->key",
+                    "dict::key",
+                ],
+                "correct_answer_id": 0,
+                "explanation": "In Python, you access dictionary values using square bracket notation with the key."
+            },
+            {
+                "title": "SQL SELECT Statement",
+                "options": [
+                    "SELECT * FROM table WHERE condition;",
+                    "RETRIEVE * FROM table WHERE condition;",
+                    "GET * FROM table WHERE condition;",
+                    "QUERY * FROM table WHERE condition;",
+                ],
+                "correct_answer_id": 0,
+                "explanation": "In SQL, SELECT is the correct keyword to retrieve data from a database table."
+            },
+            {
+                "title": "HTML Heading Tag",
+                "options": [
+                    "<h1>Heading</h1>",
+                    "<heading>Heading</heading>",
+                    "<head>Heading</head>",
+                    "<title>Heading</title>",
+                ],
+                "correct_answer_id": 0,
+                "explanation": "In HTML, <h1> is the correct tag for the main heading of a document."
+            }
+        ]
+
+        # Filter challenges based on difficulty if needed
+        if difficulty.lower() == "easy":
+            # Use all challenges for easy difficulty
+            filtered_challenges = fallback_challenges
+        elif difficulty.lower() == "medium":
+            # Use a subset for medium difficulty
+            filtered_challenges = fallback_challenges[1:4]
+        else:  # hard
+            # Use the last two challenges for hard difficulty
+            filtered_challenges = fallback_challenges[3:5]
+
+        # Return a random challenge from the filtered list
+        return random.choice(filtered_challenges)

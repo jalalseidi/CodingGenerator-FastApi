@@ -4,6 +4,7 @@ import {useState} from "react"
 export function MCQChallenge({challenge, showExplanation = false}) {
     const [selectedOption, setSelectedOption] = useState(null)
     const [shouldShowExplanation, setShouldShowExplanation] = useState(showExplanation)
+    const [showAnswer, setShowAnswer] = useState(showExplanation)
 
     const options = typeof challenge.options === "string"
         ? JSON.parse(challenge.options)
@@ -12,11 +13,16 @@ export function MCQChallenge({challenge, showExplanation = false}) {
     const handleOptionSelect = (index) => {
         if (selectedOption !== null) return;
         setSelectedOption(index)
+    }
+
+    const handleCheckAnswer = () => {
+        if (selectedOption === null) return;
+        setShowAnswer(true)
         setShouldShowExplanation(true)
     }
 
     const getOptionClass = (index) => {
-        if (selectedOption === null) return "option"
+        if (selectedOption === null || !showAnswer) return "option"
 
         if (index === challenge.correct_answer_id) {
             return "option correct"
@@ -42,7 +48,17 @@ export function MCQChallenge({challenge, showExplanation = false}) {
                 </div>
             ))}
         </div>
-        {shouldShowExplanation && selectedOption !== null && (
+
+        {selectedOption !== null && !showAnswer && (
+            <button 
+                className="check-answer-button" 
+                onClick={handleCheckAnswer}
+            >
+                Check Answer
+            </button>
+        )}
+
+        {shouldShowExplanation && showAnswer && (
             <div className="explanation">
                 <h4>Explanation</h4>
                 <p>{challenge.explanation}</p>
